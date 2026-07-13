@@ -5,52 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bunny's Space Station</title>
     <style>
-        body { margin: 0; background: #05070a; color: #e0f7fa; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .card { background: rgba(10, 25, 47, 0.9); padding: 20px; border-radius: 20px; border: 1px solid #00d4ff; width: 100%; max-width: 400px; text-align: center; }
-        h1 { color: #00d4ff; font-size: 1.5rem; margin-bottom: 0.5rem; }
-        #game-area { width: 100%; height: 250px; position: relative; border: 2px dashed #00d4ff; margin: 20px 0; cursor: crosshair; background: rgba(0,0,0,0.3); }
-        #meteor { width: 40px; height: 40px; background: #ff4500; border-radius: 50%; position: absolute; transition: 0.1s; cursor: pointer; }
-        button { background: #00d4ff; border: none; padding: 10px 20px; border-radius: 30px; color: #05070a; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        body { margin: 0; background: #05070a; color: #e0f7fa; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 10px; }
+        .card { background: rgba(10, 25, 47, 0.9); padding: 15px; border-radius: 20px; border: 1px solid #00d4ff; width: 100%; max-width: 400px; text-align: center; }
+        #game-area { width: 100%; height: 300px; background: #000; position: relative; overflow: hidden; border: 2px solid #00d4ff; margin: 15px 0; touch-action: none; }
+        #ship { width: 40px; height: 40px; background: #00d4ff; position: absolute; bottom: 20px; left: 50%; border-radius: 5px; }
+        h1 { font-size: 1.2rem; color: #00d4ff; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>Welcome, I'm Bunny! 🐰🚀</h1>
-        <p>Coder | Gamer | Space Enthusiast</p>
-        <p style="font-size: 0.9rem; color: #a0c4ff;">Exploring the universe, one line of code at a time.</p>
-        
-        <div id="game-area">
-            <div id="meteor" onclick="hitMeteor()"></div>
-        </div>
-        <p>Score: <span id="score">0</span></p>
-        <button onclick="resetGame()">Reset Score</button>
+<div class="card">
+    <h1>Bunny's Space Station 🐰🚀</h1>
+    <p>Use WASD to move or Touch/Drag to fly!</p>
+    <div id="game-area">
+        <div id="ship"></div>
     </div>
+    <p>Controls: WASD (Laptop) | Drag (Mobile)</p>
+</div>
 
-    <script>
-        let score = 0;
-        const meteor = document.getElementById('meteor');
-        const gameArea = document.getElementById('game-area');
+<script>
+    const ship = document.getElementById('ship');
+    const gameArea = document.getElementById('game-area');
+    let shipX = 180, shipY = 240;
 
-        function hitMeteor() {
-            score++;
-            document.getElementById('score').innerText = score;
-            moveMeteor();
-        }
+    // Laptop WASD Movement
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'w' && shipY > 0) shipY -= 20;
+        if (e.key === 's' && shipY < 260) shipY += 20;
+        if (e.key === 'a' && shipX > 0) shipX -= 20;
+        if (e.key === 'd' && shipX < 360) shipX += 20;
+        updateShip();
+    });
 
-        function moveMeteor() {
-            let x = Math.random() * (gameArea.clientWidth - 40);
-            let y = Math.random() * (gameArea.clientHeight - 40);
-            meteor.style.left = x + 'px';
-            meteor.style.top = y + 'px';
-        }
+    // Mobile Touch/Drag Movement
+    gameArea.addEventListener('touchmove', (e) => {
+        let rect = gameArea.getBoundingClientRect();
+        shipX = e.touches[0].clientX - rect.left - 20;
+        shipY = e.touches[0].clientY - rect.top - 20;
+        updateShip();
+    });
 
-        function resetGame() {
-            score = 0;
-            document.getElementById('score').innerText = score;
-        }
-        
-        moveMeteor(); 
-    </script>
+    function updateShip() {
+        ship.style.left = shipX + 'px';
+        ship.style.top = shipY + 'px';
+    }
+</script>
 </body>
 </html>
