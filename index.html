@@ -5,41 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bunny's Space Station</title>
     <style>
-        body {
-            margin: 0;
-            background-color: #05070a;
-            color: #e0f7fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            text-align: center;
-        }
-        .card {
-            background: rgba(10, 25, 47, 0.8);
-            padding: 2rem;
-            border-radius: 20px;
-            border: 1px solid #00d4ff;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-            max-width: 80%;
-            width: 400px;
-        }
-        h1 { color: #00d4ff; margin-bottom: 0.5rem; }
-        p { line-height: 1.6; }
-        button {
-            background: #00d4ff;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            color: #05070a;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: transform 0.2s;
-        }
-        button:hover { transform: scale(1.05); }
-        #fact { margin-top: 20px; font-style: italic; color: #a0c4ff; }
+        body { margin: 0; background: #05070a; color: #e0f7fa; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .card { background: rgba(10, 25, 47, 0.9); padding: 20px; border-radius: 20px; border: 1px solid #00d4ff; width: 100%; max-width: 400px; text-align: center; }
+        h1 { color: #00d4ff; font-size: 1.5rem; margin-bottom: 0.5rem; }
+        #game-area { width: 100%; height: 250px; position: relative; border: 2px dashed #00d4ff; margin: 20px 0; cursor: crosshair; background: rgba(0,0,0,0.3); }
+        #meteor { width: 40px; height: 40px; background: #ff4500; border-radius: 50%; position: absolute; transition: 0.1s; cursor: pointer; }
+        button { background: #00d4ff; border: none; padding: 10px 20px; border-radius: 30px; color: #05070a; font-weight: bold; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -47,24 +18,39 @@
     <div class="card">
         <h1>Welcome, I'm Bunny! 🐰🚀</h1>
         <p>Coder | Gamer | Space Enthusiast</p>
-        <p>Exploring the universe, one line of code at a time.</p>
-        <button onclick="showFact()">Discover Space Fact</button>
-        <p id="fact"></p>
+        <p style="font-size: 0.9rem; color: #a0c4ff;">Exploring the universe, one line of code at a time.</p>
+        
+        <div id="game-area">
+            <div id="meteor" onclick="hitMeteor()"></div>
+        </div>
+        <p>Score: <span id="score">0</span></p>
+        <button onclick="resetGame()">Reset Score</button>
     </div>
 
     <script>
-        function showFact() {
-            const spaceFacts = [
-                "Space is completely silent because there is no atmosphere.",
-                "The Sun accounts for 99.86% of the mass in our solar system.",
-                "One day on Venus is longer than one year on Venus.",
-                "There is a planet made of diamond that is twice the size of Earth.",
-                "Neutron stars can spin 600 times per second.",
-                "Footprints on the Moon will be there for 100 million years."
-            ];
-            const randomIndex = Math.floor(Math.random() * spaceFacts.length);
-            document.getElementById('fact').innerText = spaceFacts[randomIndex];
+        let score = 0;
+        const meteor = document.getElementById('meteor');
+        const gameArea = document.getElementById('game-area');
+
+        function hitMeteor() {
+            score++;
+            document.getElementById('score').innerText = score;
+            moveMeteor();
         }
+
+        function moveMeteor() {
+            let x = Math.random() * (gameArea.clientWidth - 40);
+            let y = Math.random() * (gameArea.clientHeight - 40);
+            meteor.style.left = x + 'px';
+            meteor.style.top = y + 'px';
+        }
+
+        function resetGame() {
+            score = 0;
+            document.getElementById('score').innerText = score;
+        }
+        
+        moveMeteor(); 
     </script>
 </body>
 </html>
