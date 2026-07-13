@@ -5,85 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bunny's Space Station</title>
     <style>
-        body { margin: 0; background: #05070a; color: #e0f7fa; font-family: 'Segoe UI', sans-serif; text-align: center; overflow: hidden; }
-        .header { padding: 15px; background: rgba(10, 25, 47, 0.8); border-bottom: 2px solid #00d4ff; }
-        h1 { color: #00d4ff; margin: 0; font-size: 1.2rem; }
-        #game-area { width: 100vw; height: 60vh; background: #000; position: relative; touch-action: none; border-bottom: 2px solid #00d4ff; }
-        #ship { width: 40px; height: 40px; background: #00d4ff; position: absolute; bottom: 20px; border-radius: 5px; }
-        .enemy { width: 30px; height: 30px; background: #ff4500; position: absolute; border-radius: 5px; }
-        .bullet { width: 6px; height: 12px; background: #fff; position: absolute; }
+        body { margin: 0; background: #05070a; color: #e0f7fa; font-family: sans-serif; text-align: center; overflow: hidden; }
+        .card { background: rgba(10, 25, 47, 0.9); padding: 20px; border-radius: 20px; border: 1px solid #00d4ff; width: 300px; margin: 20px auto; }
+        #game-area { width: 100%; height: 300px; position: relative; border: 2px dashed #00d4ff; margin-top: 10px; cursor: crosshair; }
+        #meteor { width: 50px; height: 50px; background: #ff4500; border-radius: 50%; position: absolute; transition: 0.3s; cursor: pointer; }
+        h1 { color: #00d4ff; font-size: 1.5rem; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Welcome, I'm Bunny! 🐰🚀</h1>
-        <p>Coder | Gamer | Space Enthusiast</p>
+    <div class="card">
+        <h1>Bunny's Space Station 🐰🚀</h1>
+        <p>Score: <span id="score">0</span></p>
+        <div id="game-area">
+            <div id="meteor" onclick="hitMeteor()"></div>
+        </div>
+        <button onclick="alert('Catch the meteor to score!')" style="margin-top:10px;">How to play</button>
     </div>
 
-    <div id="game-area" onclick="fire()">
-        <div id="ship"></div>
-    </div>
-    <p>Controls: WASD to Move | Tap/Space to Shoot</p>
+    <script>
+        let score = 0;
+        const meteor = document.getElementById('meteor');
+        const gameArea = document.getElementById('game-area');
 
-<script>
-    const area = document.getElementById('game-area');
-    const ship = document.getElementById('ship');
-    let shipX = window.innerWidth / 2 - 20;
-    ship.style.left = shipX + 'px';
+        function hitMeteor() {
+            score++;
+            document.getElementById('score').innerText = score;
+            moveMeteor();
+        }
 
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'a' && shipX > 0) shipX -= 30;
-        if (e.key === 'd' && shipX < window.innerWidth - 40) shipX += 30;
-        if (e.key === ' ') fire();
-        ship.style.left = shipX + 'px';
-    });
-
-    area.addEventListener('touchmove', (e) => {
-        shipX = e.touches[0].clientX - 20;
-        ship.style.left = shipX + 'px';
-    });
-
-    function fire() {
-        const bullet = document.createElement('div');
-        bullet.className = 'bullet';
-        bullet.style.left = (shipX + 17) + 'px';
-        bullet.style.bottom = '80px';
-        area.appendChild(bullet);
+        function moveMeteor() {
+            let x = Math.random() * (gameArea.clientWidth - 50);
+            let y = Math.random() * (gameArea.clientHeight - 50);
+            meteor.style.left = x + 'px';
+            meteor.style.top = y + 'px';
+        }
         
-        let moveBullet = setInterval(() => {
-            let pos = parseInt(bullet.style.bottom);
-            let bRect = bullet.getBoundingClientRect();
-            
-            // Check for collision with all enemies
-            document.querySelectorAll('.enemy').forEach(enemy => {
-                let eRect = enemy.getBoundingClientRect();
-                if (bRect.left < eRect.right && bRect.right > eRect.left && 
-                    bRect.top < eRect.bottom && bRect.bottom > eRect.top) {
-                    enemy.remove();
-                    bullet.remove();
-                    clearInterval(moveBullet);
-                }
-            });
-
-            if (pos > window.innerHeight) { bullet.remove(); clearInterval(moveBullet); }
-            bullet.style.bottom = (pos + 10) + 'px';
-        }, 20);
-    }
-
-    setInterval(() => {
-        const enemy = document.createElement('div');
-        enemy.className = 'enemy';
-        enemy.style.left = Math.random() * (window.innerWidth - 30) + 'px';
-        enemy.style.top = '0px';
-        area.appendChild(enemy);
-        
-        let moveEnemy = setInterval(() => {
-            let top = parseInt(enemy.style.top);
-            if (top > window.innerHeight) { enemy.remove(); clearInterval(moveEnemy); }
-            enemy.style.top = (top + 5) + 'px';
-        }, 50);
-    }, 1000);
-</script>
+        moveMeteor(); // Start position
+    </script>
 </body>
 </html>
