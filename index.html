@@ -2,50 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Space Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bunny's Space Station</title>
     <style>
         body {
-            background-color: #0b0e14; /* Dark Space Background */
-            color: #add8e6; /* Light Blue Text */
-            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            background-color: #05070a;
+            color: #e0f7fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             text-align: center;
-            padding-top: 50px;
         }
-        .container {
-            border: 2px solid #007bff; /* Blue Border */
-            padding: 20px;
-            display: inline-block;
-            border-radius: 15px;
+        .card {
+            background: rgba(10, 25, 47, 0.8);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            max-width: 80%;
+            width: 400px;
         }
+        h1 { color: #00d4ff; margin-bottom: 0.5rem; }
+        p { line-height: 1.6; }
         button {
-            background-color: #007bff;
-            color: white;
+            background: #00d4ff;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 25px;
+            border-radius: 30px;
+            color: #05070a;
+            font-weight: bold;
             cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
+            margin-top: 20px;
+            transition: transform 0.2s;
         }
-        button:hover { background-color: #0056b3; }
+        button:hover { transform: scale(1.05); }
+        #fact { margin-top: 20px; font-style: italic; color: #a0c4ff; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to My Orbit 🚀</h1>
+
+    <div class="card">
+        <h1>Welcome, I'm Bunny! 🐰🚀</h1>
         <p>Coder | Gamer | Space Enthusiast</p>
-        <button onclick="changeFact()">Get a Space Fact!</button>
+        <p>Exploring the universe, one line of code at a time.</p>
+        <button onclick="showFact()">Discover Space Fact</button>
         <p id="fact"></p>
     </div>
 
     <script>
-        function changeFact() {
-            const facts = [
-                "Neutron stars can spin 600 times per second.",
+        function showFact() {
+            const spaceFacts = [
+                "Space is completely silent because there is no atmosphere.",
+                "The Sun accounts for 99.86% of the mass in our solar system.",
                 "One day on Venus is longer than one year on Venus.",
-                "There is a planet made of diamond.",
-                "Space is completely silent."
+                "There is a planet made of diamond that is twice the size of Earth.",
+                "Neutron stars can spin 600 times per second.",
+                "Footprints on the Moon will be there for 100 million years."
             ];
-            document.getElementById('fact').innerText = facts[Math.floor(Math.random() * facts.length)];
+            const randomIndex = Math.floor(Math.random() * spaceFacts.length);
+            document.getElementById('fact').innerText = spaceFacts[randomIndex];
         }
     </script>
 </body>
