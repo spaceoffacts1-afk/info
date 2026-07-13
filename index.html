@@ -5,50 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bunny's Space Station</title>
     <style>
-        body { margin: 0; background: #05070a; color: #e0f7fa; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 10px; }
-        .card { background: rgba(10, 25, 47, 0.9); padding: 15px; border-radius: 20px; border: 1px solid #00d4ff; width: 100%; max-width: 400px; text-align: center; }
-        #game-area { width: 100%; height: 300px; background: #000; position: relative; overflow: hidden; border: 2px solid #00d4ff; margin: 15px 0; touch-action: none; }
-        #ship { width: 40px; height: 40px; background: #00d4ff; position: absolute; bottom: 20px; left: 50%; border-radius: 5px; }
-        h1 { font-size: 1.2rem; color: #00d4ff; }
+        body { margin: 0; background: #05070a; color: #e0f7fa; font-family: 'Segoe UI', sans-serif; text-align: center; overflow-x: hidden; }
+        .header { padding: 20px; background: rgba(10, 25, 47, 0.8); border-bottom: 2px solid #00d4ff; }
+        h1 { color: #00d4ff; margin: 0; font-size: 1.5rem; }
+        #game-area { width: 100vw; height: 60vh; background: #000; position: relative; touch-action: none; border-bottom: 2px solid #00d4ff; }
+        #ship { width: 40px; height: 40px; background: #00d4ff; position: absolute; bottom: 20px; border-radius: 5px; }
+        .enemy { width: 30px; height: 30px; background: #ff4500; position: absolute; border-radius: 5px; }
+        .bullet { width: 6px; height: 12px; background: #fff; position: absolute; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h1>Bunny's Space Station 🐰🚀</h1>
-    <p>Use WASD to move or Touch/Drag to fly!</p>
-    <div id="game-area">
+    <div class="header">
+        <h1>Welcome, I'm Bunny! 🐰🚀</h1>
+        <p>Coder | Gamer | Space Enthusiast</p>
+        <p style="font-size: 0.8rem; opacity: 0.8;">Exploring the universe, one line of code at a time.</p>
+    </div>
+
+    <div id="game-area" onclick="fire()">
         <div id="ship"></div>
     </div>
-    <p>Controls: WASD (Laptop) | Drag (Mobile)</p>
-</div>
+    <p>Controls: WASD to Move | Tap or Space to Shoot</p>
 
 <script>
+    const area = document.getElementById('game-area');
     const ship = document.getElementById('ship');
-    const gameArea = document.getElementById('game-area');
-    let shipX = 180, shipY = 240;
+    let shipX = window.innerWidth / 2 - 20;
+    ship.style.left = shipX + 'px';
 
-    // Laptop WASD Movement
+    // Movement
     window.addEventListener('keydown', (e) => {
-        if (e.key === 'w' && shipY > 0) shipY -= 20;
-        if (e.key === 's' && shipY < 260) shipY += 20;
-        if (e.key === 'a' && shipX > 0) shipX -= 20;
-        if (e.key === 'd' && shipX < 360) shipX += 20;
-        updateShip();
-    });
-
-    // Mobile Touch/Drag Movement
-    gameArea.addEventListener('touchmove', (e) => {
-        let rect = gameArea.getBoundingClientRect();
-        shipX = e.touches[0].clientX - rect.left - 20;
-        shipY = e.touches[0].clientY - rect.top - 20;
-        updateShip();
-    });
-
-    function updateShip() {
+        if (e.key === 'a' && shipX > 0) shipX -= 30;
+        if (e.key === 'd' && shipX < window.innerWidth - 40) shipX += 30;
+        if (e.key === ' ') fire();
         ship.style.left = shipX + 'px';
-        ship.style.top = shipY + 'px';
+    });
+
+    area.addEventListener('touchmove', (e) => {
+        shipX = e.touches[0].clientX - 20;
+        ship.style.left = shipX + 'px';
+    });
+
+    function fire() {
+        const bullet = document.createElement('div');
+        bullet.className = 'bullet';
+        bullet.style.left = (shipX + 17) + 'px';
+        bullet.style.bottom = '80px';
+        area.appendChild(bullet);
+        
+        let moveBullet = setInterval(() => {
+            let pos = parseInt(bullet.style.bottom);
+            if (pos > window.innerHeight) { bullet.remove(); clearInterval(moveBullet); }
+            bullet.style.bottom = (pos + 10) + 'px';
+        }, 20);
     }
+
+    // Spawn Enemies
+    setInterval(() => {
+        const enemy = document.createElement('div');
+        enemy.className = 'enemy';
+        enemy.style.left = Math.random() * (window.innerWidth - 30) + 'px';
+        enemy.style.top = '0px';
+        area.appendChild(enemy);
+        
+        let moveEnemy = setInterval(() => {
+            let top = parseInt(enemy.style.top);
+            if (top > window.innerHeight) { enemy.remove(); clearInterval(moveEnemy); }
+            enemy.style.top = (top + 5) + 'px';
+        }, 50);
+    }, 1200);
 </script>
 </body>
 </html>
