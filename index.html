@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bunny's Space Station</title>
     <style>
-        body { margin: 0; background: #05070a; color: #e0f7fa; font-family: 'Segoe UI', sans-serif; text-align: center; overflow-x: hidden; }
-        .header { padding: 20px; background: rgba(10, 25, 47, 0.8); border-bottom: 2px solid #00d4ff; }
-        h1 { color: #00d4ff; margin: 0; font-size: 1.5rem; }
+        body { margin: 0; background: #05070a; color: #e0f7fa; font-family: 'Segoe UI', sans-serif; text-align: center; overflow: hidden; }
+        .header { padding: 15px; background: rgba(10, 25, 47, 0.8); border-bottom: 2px solid #00d4ff; }
+        h1 { color: #00d4ff; margin: 0; font-size: 1.2rem; }
         #game-area { width: 100vw; height: 60vh; background: #000; position: relative; touch-action: none; border-bottom: 2px solid #00d4ff; }
         #ship { width: 40px; height: 40px; background: #00d4ff; position: absolute; bottom: 20px; border-radius: 5px; }
         .enemy { width: 30px; height: 30px; background: #ff4500; position: absolute; border-radius: 5px; }
@@ -19,13 +19,12 @@
     <div class="header">
         <h1>Welcome, I'm Bunny! 🐰🚀</h1>
         <p>Coder | Gamer | Space Enthusiast</p>
-        <p style="font-size: 0.8rem; opacity: 0.8;">Exploring the universe, one line of code at a time.</p>
     </div>
 
     <div id="game-area" onclick="fire()">
         <div id="ship"></div>
     </div>
-    <p>Controls: WASD to Move | Tap or Space to Shoot</p>
+    <p>Controls: WASD to Move | Tap/Space to Shoot</p>
 
 <script>
     const area = document.getElementById('game-area');
@@ -33,7 +32,6 @@
     let shipX = window.innerWidth / 2 - 20;
     ship.style.left = shipX + 'px';
 
-    // Movement
     window.addEventListener('keydown', (e) => {
         if (e.key === 'a' && shipX > 0) shipX -= 30;
         if (e.key === 'd' && shipX < window.innerWidth - 40) shipX += 30;
@@ -55,12 +53,24 @@
         
         let moveBullet = setInterval(() => {
             let pos = parseInt(bullet.style.bottom);
+            let bRect = bullet.getBoundingClientRect();
+            
+            // Check for collision with all enemies
+            document.querySelectorAll('.enemy').forEach(enemy => {
+                let eRect = enemy.getBoundingClientRect();
+                if (bRect.left < eRect.right && bRect.right > eRect.left && 
+                    bRect.top < eRect.bottom && bRect.bottom > eRect.top) {
+                    enemy.remove();
+                    bullet.remove();
+                    clearInterval(moveBullet);
+                }
+            });
+
             if (pos > window.innerHeight) { bullet.remove(); clearInterval(moveBullet); }
             bullet.style.bottom = (pos + 10) + 'px';
         }, 20);
     }
 
-    // Spawn Enemies
     setInterval(() => {
         const enemy = document.createElement('div');
         enemy.className = 'enemy';
@@ -73,7 +83,7 @@
             if (top > window.innerHeight) { enemy.remove(); clearInterval(moveEnemy); }
             enemy.style.top = (top + 5) + 'px';
         }, 50);
-    }, 1200);
+    }, 1000);
 </script>
 </body>
 </html>
