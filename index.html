@@ -3,57 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bunny | Professional Portfolio</title>
+    <title>Bunny | Creative Portfolio</title>
     <style>
-        :root { 
-            --accent-blue: #0056b3; 
-            --bg-color: #f8f9fa; 
-            --text-color: #333; 
-        }
+        :root { --blue: #2A5C82; }
         body { 
-            font-family: 'Inter', -apple-system, sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-color);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+            background-color: #FFFFFF; 
+            color: #333;
             display: flex; 
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
             margin: 0; 
         }
-        .card { 
-            width: 90%; 
-            max-width: 450px; 
-            background: white; 
-            padding: 40px; 
-            border-radius: 16px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
-            text-align: center; 
-        }
-        h1 { margin: 0 0 10px 0; color: var(--accent-blue); }
-        p.bio-text { margin-bottom: 30px; line-height: 1.6; color: #555; }
-        .links { display: flex; flex-direction: column; gap: 12px; }
-        .btn { 
-            padding: 12px 20px; 
-            border: 2px solid var(--accent-blue); 
-            color: var(--accent-blue); 
-            text-decoration: none; 
-            border-radius: 8px; 
-            font-weight: 600; 
-            transition: all 0.3s ease; 
-        }
-        .btn:hover { background: var(--accent-blue); color: white; }
+        .container { text-align: center; max-width: 400px; padding: 20px; }
+        h1 { font-size: 2.5rem; letter-spacing: -1px; color: var(--blue); margin-bottom: 10px; }
+        p.tagline { font-size: 1.1rem; color: #666; margin-bottom: 40px; }
+        .divider { width: 50px; height: 2px; background: var(--blue); margin: 0 auto 40px; }
+        .bio-info { line-height: 1.8; font-size: 1rem; color: #444; }
     </style>
 </head>
 <body>
-    <div class="card">
+    <div class="container">
         <h1>Bunny</h1>
-        <p class="bio-text">Software Developer | Gaming Enthusiast | Lifelong Learner</p>
-        
-        <div class="links">
-            <a href="#" class="btn">My Projects</a>
-            <a href="#" class="btn">Professional Blog</a>
-            <a href="#" class="btn">GitHub</a>
-            <a href="#" class="btn">Contact Me</a>
+        <p class="tagline">Creative Designer & Learner</p>
+        <div class="divider"></div>
+        <div class="bio-info">
+            <p>Exploring the intersection of aesthetic design and digital technology.</p>
+            <p>Passionate about visual storytelling, gaming aesthetics, and the pursuit of new skills.</p>
+            <p>Currently open to creative collaborations.</p>
         </div>
     </div>
 </body>
